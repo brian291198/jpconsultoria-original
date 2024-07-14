@@ -1,0 +1,202 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+//Agregamos
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
+
+class UsuarioController extends Controller
+{
+   
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+
+
+    public function index(Request $request)
+    {
+        //User:all();
+        $buscarpor=trim($request->get('buscarpor'));
+        $usuarios = User::where('name', 'LIKE', '%' . $buscarpor . '%')
+                    ->orWhere('email', 'LIKE', '%' . $buscarpor . '%')
+                    ->paginate(5);
+        //return $cliente;
+        return view('usuarios.index', compact('usuarios'));
+     /*  esto va como codigo en la vista para la paginación
+      {!! $usuarios->links() !!} */
+
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+       $roles = Role::pluck('name','name')->all();
+        return view('usuarios.crear',compact('roles'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+        $rules = [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|same:confirm-password',
+            'roles' => 'required'
+        ];
+    
+        // Crear el validador
+        $validator = Validator::make($request->all(), $rules);
+    
+        // Manejar errores de validación
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        
+        // Crear el usuario
+    $input = $request->all();
+    $input['password'] = Hash::make($input['password']);
+
+    // Guardar el usuario en la base de datos
+    $user = User::create($input);
+
+    // Asignar roles al usuario
+    $user->assignRole($request->input('roles'));
+
+    // Redireccionar a la ruta de index de usuarios
+    return redirect()->route('usuarios.index');
+        
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        
+
+         // Buscar el usuario por su ID
+    $user = User::find($id);
+
+    // Verificar si el usuario existe
+    if (!$user) {
+        // Manejo de error si el usuario no existe
+        return redirect()->route('usuarios.index')->with('error', 'Usuario no encontrado');
+    }
+
+    // Obtener todos los roles disponibles
+    $roles = Role::pluck('name', 'name')->all();
+
+    // Obtener los roles del usuario actual
+    $userRoles = $user->roles->pluck('name', 'name')->all();
+
+    // Pasar los datos a la vista de edición
+    return view('usuarios.editar', compact('user', 'roles', 'userRole'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'nullable|min:6|same:confirm-password',
+            'roles' => 'required'
+        ]);
+    
+        // Manejar errores de validación
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+    
+        // Preparar los datos para actualizar
+        $input = $request->except('_token', 'confirm-password');
+        
+        // Verificar si se proporcionó una nueva contraseña
+        if (!empty($input['password'])) {
+            $input['password'] = Hash::make($input['password']);
+        } else {
+            unset($input['password']); // Eliminar la contraseña si no se proporcionó
+        }
+    
+        // Actualizar el usuario
+        $user = User::findOrFail($id);
+        $user->update($input);
+    
+        // Actualizar roles del usuario
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+        $user->assignRole($request->input('roles'));
+    
+        // Redireccionar a la lista de usuarios
+        return redirect()->route('usuarios.index');
+    
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        // Encuentra y elimina el usuario por su ID
+    $user = User::find($id);
+    
+    if (!$user) {
+        // Manejo de error si el usuario no existe
+        return redirect()->route('usuarios.index')->with('error', 'Usuario no encontrado');
+    }
+
+    // Elimina el usuario
+    $user->delete();
+
+    // Redirige de vuelta a la página de índice de usuarios
+    return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente');
+    }
+}

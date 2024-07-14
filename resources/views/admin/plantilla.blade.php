@@ -97,7 +97,7 @@
             <li class="dropdown">
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-person-gear"></i><span>Usuarios</span></a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="#">Lista de usuarios</a></li>
+                <li><a class="nav-link" href="{{route('usuarios.index')}}">Lista de usuarios</a></li>
                 <li><a class="nav-link" href="#">Crear nuevo usuario</a></li>
               </ul>
             </li>
@@ -156,6 +156,7 @@
     </div>
   </div>
 
+
   <!-- General JS Scripts -->
   <script src="{{ asset('backend/assets/modules/jquery.min.js')}}"></script>
   <script src="{{ asset('backend/assets/modules/popper.js')}}"></script>
@@ -174,13 +175,13 @@
   <script src="{{ asset('backend/assets/modules/chocolat/dist/js/jquery.chocolat.min.js')}}"></script>
 
   <!-- Page Specific JS File -->
-  <script src="{{ asset('backend/assets/js/page/index-0.js')}}"></script>
+ {{--  <script src="{{ asset('backend/assets/js/page/index-0.js')}}"></script> --}}
   
   <!-- Template JS File -->
   <script src="{{ asset('backend/assets/js/scripts.js')}}"></script>
   <script src="{{ asset('backend/assets/js/custom.js')}}"></script>
-  <script>
+
   @yield('script')
-  </script>
+
 </body>
 </html>
