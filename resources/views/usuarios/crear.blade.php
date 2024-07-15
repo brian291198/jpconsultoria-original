@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
                             
-                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                    {{-- <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="roles">Roles</label>
                                             <select name="roles[]" class="form-control">
@@ -65,7 +65,29 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                    </div> --}}
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="roles">Roles</label>
+                                            <select id="role-select" class="form-control">
+                                                <option value="">Seleccione un rol</option>
+                                                @foreach($roles as $role)
+                                                    <option value="{{ $role}}">{{ $role}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
+                                    
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="selected-roles">Roles Seleccionados</label>
+                                            <ul id="selected-roles" class="list-group">
+                                                <!-- Aquí se agregarán dinámicamente los roles seleccionados -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
                                     
                                     <div class="col-xs-12 col-sm-12 col-md-12 d-flex justify-content-center w-100">
                                         <button type="submit" class="btn btn-primary mx-2">Guardar</button>
@@ -84,5 +106,52 @@
             </div>
         </div>
     </section>
+
+    @section('script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleSelect = document.getElementById('role-select');
+            const selectedRoles = document.getElementById('selected-roles');
+    
+            roleSelect.addEventListener('change', function() {
+                const selectedValue = this.value;
+                const selectedText = this.options[this.selectedIndex].text;
+    
+                // Verificar si el rol seleccionado ya está en la lista
+                const alreadySelected = Array.from(selectedRoles.querySelectorAll('input[type="hidden"]'))
+                    .map(input => input.value)
+                    .includes(selectedValue);
+    
+                if (selectedValue !== "" && !alreadySelected) {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                    listItem.innerHTML = `
+                        ${selectedText}
+                        <input type="hidden" name="roles[]" value="${selectedValue}">
+                        <button type="button" class="btn btn-danger btn-sm remove-role">Eliminar</button>
+                    `;
+    
+                    selectedRoles.appendChild(listItem);
+    
+                    // Resetear el select
+                    this.value = "";
+    
+                    // Añadir event listener al botón de eliminar
+                    listItem.querySelector('.remove-role').addEventListener('click', function() {
+                        listItem.remove();
+                    });
+                }
+            });
+    
+            // Añadir event listeners a los botones de eliminar inicialmente presentes
+            document.querySelectorAll('.remove-role').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.remove();
+                });
+            });
+        });
+    </script>
+
+@endsection
 @endsection
 

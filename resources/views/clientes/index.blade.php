@@ -8,10 +8,11 @@
     </div>
     <div class="card-header">
 
+        @can('Crear clientes')
         <h4>
             <a href="{{route('clientes.create')}}" class="btn btn-primary"><i class="bi bi-plus-circle-fill mr-2"></i>Crear nuevo</a>
         </h4>
-
+        @endcan
         <div class="card-header-form">
             <form>
                 <div class="input-group row">
@@ -57,7 +58,9 @@
             <th scope="col">Telefono</th>
             <th scope="col">Dni</th>
             <th scope="col">Correo</th>
+            @can('Editar clientes')
             <th colspan="3" class="text-center">Accion</th>
+            @endcan
             </tr>
         </thead>
         <tbody>
@@ -75,7 +78,7 @@
                         <td>{{$c->telefono}}</td>
                         <td>{{$c->num_documento}}</td>
                         <td>{{$c->correo}}</td>
-
+                        @can('Editar clientes')
                         <td class="text-right">
                             <form action="{{route('clientes.destroy',$c->idcliente)}}" method="POST" class="formulario-eliminar">
                                 @csrf
@@ -83,12 +86,13 @@
                                 <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash-alt"></i></button>
                             </form>
                         </td>
-
+                        
                         <td class="text-left">
                             <form action="{{route('clientes.edit',$c->idcliente)}}" method="GET" >
                                 <button class="btn btn-warning btn-sm" type="submit"><i class="far fa-user" ></i></button>  
                             </form>
                         </td>
+                        @endcan
                     </tr>
                 @endforeach
             @endif

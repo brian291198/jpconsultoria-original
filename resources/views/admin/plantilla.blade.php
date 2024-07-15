@@ -148,7 +148,7 @@
               <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-people"></i><span>Asesores</span></a>
                 <ul class="dropdown-menu">
-                  @can(' Ver lista de asesores')
+                  @can('Ver lista de asesores')
                   <li><a class="nav-link" href="{{route('asesores.index')}}">Lista de asesores</a></li>
                   @endcan
                 </ul> 
