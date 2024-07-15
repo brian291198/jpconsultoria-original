@@ -113,7 +113,6 @@
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-people"></i><span>Asesores</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="{{route('asesor.index')}}">Lista de asesores</a></li>
-                <li><a class="nav-link" href="#">Crear nuevo asesor</a></li>
               </ul>
             </li>
             <li class="menu-header">Espacio de trabajo</li>
