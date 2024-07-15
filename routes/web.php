@@ -3,9 +3,9 @@
 use App\Http\Controllers\AsesorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ClientesController;
 
 Route::get('/', function () {
   return redirect()->route('login'); // Redirige a la ruta 'login'
