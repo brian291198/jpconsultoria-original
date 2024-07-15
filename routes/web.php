@@ -24,9 +24,11 @@ Route::middleware(['auth'])->group(function () {
       return view('errores.errors-404');
     });
     Route::get('/home', [HomeController::class, 'retornarHome'])->name('retornarHome');
-   
-    Route::resource('asesor', AsesorController::class);
-
+    
+    /* ASESORES */
+    Route::resource('asesores', AsesorController::class)->names('asesores');
+    /* CLIENTES */
+    Route::resource('clientes', ClientesController::class)->names('clientes');
     Route::resource('usuarios', UsuarioController::class)->names('usuarios');
     Route::resource('roles',RolController::class)->names('roles');
 
