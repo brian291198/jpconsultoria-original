@@ -1,5 +1,5 @@
 @extends('admin.plantilla')
-
+@section('title','Usuarios')
 @section('css')
    <!-- bootstrap -->
    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -39,6 +39,17 @@
 
 @section('content')
 
+<section class="section">
+  <div class="section-header">
+      <h3 class="page__heading">Usuarios</h3>
+  </div>
+  <div class="section-body">
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="card table-responsive">
+                  <div class="card-body">
+
+
 
 <div class="card">
     <div class="card-header">
@@ -64,7 +75,7 @@
         </form>
       </div>
     </div>
-    <div class="card-body">
+    <div class="card-body table-responsive">
       <table class="table table-hover" >
         <thead>
 
@@ -92,9 +103,12 @@
                 </td>
                 <td>
                     
-                    <a href="{{route('usuarios.edit', $usuario->id)}}" class="btn btn-warning">Editar</a>
-                    <a href="{{route('usuarios.destroy', $usuario->id)}}" class="btn btn-danger">Eliminar</a>
-
+                    <a href="{{route('usuarios.edit', $usuario->id)}}" class="btn btn-info"><i class="bi bi-pencil-square"></i></a>
+                    <form method="POST" action="{{ route('usuarios.destroy', $usuario->id) }}" style="display:inline">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                      </form>
 
                   </td>
             </tr>
@@ -134,6 +148,14 @@
     </div> --}}
 
   </div>
+</div>
+                     
+</div>
+</div>
+</div>
+</div>
+
+</section>
 
 @endsection
 

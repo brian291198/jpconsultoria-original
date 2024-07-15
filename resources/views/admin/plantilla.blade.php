@@ -93,19 +93,22 @@
                 <li><a class="nav-link" href="#">Dashboard de Asesores</a></li>
               </ul>
             </li>
+
+            @can('Ver submenú de usuario')                          
             <li class="menu-header">Accesos</li>
             <li class="dropdown">
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-person-gear"></i><span>Usuarios</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="{{route('usuarios.index')}}">Lista de usuarios</a></li>
-                <li><a class="nav-link" href="#">Crear nuevo usuario</a></li>
+                <li><a class="nav-link" href="{{route('usuarios.create')}}">Crear nuevo usuario</a></li>
               </ul>
             </li>
+            @endcan
             <li class="dropdown">
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-briefcase"></i><span>Roles</span></a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="#">Lista de roles</a></li>
-                <li><a class="nav-link" href="#">Crear nuevo rol</a></li>
+                <li><a class="nav-link" href="{{route('roles.index')}}">Lista de roles</a></li>
+                <li><a class="nav-link" href="{{route('roles.create')}}">Crear nuevo rol</a></li>
               </ul>
             </li>
             <li class="menu-header">Administración</li>
@@ -156,6 +159,8 @@
     </div>
   </div>
 
+   
+  @yield('script')
 
   <!-- General JS Scripts -->
   <script src="{{ asset('backend/assets/modules/jquery.min.js')}}"></script>
@@ -181,7 +186,7 @@
   <script src="{{ asset('backend/assets/js/scripts.js')}}"></script>
   <script src="{{ asset('backend/assets/js/custom.js')}}"></script>
 
-  @yield('script')
+ 
 
 </body>
 </html>

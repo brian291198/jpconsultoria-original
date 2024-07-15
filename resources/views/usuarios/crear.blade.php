@@ -1,5 +1,5 @@
 @extends('admin.plantilla')
-
+@section('title','Usuarios')
 @section('content')
     <section class="section">
         <div class="section-header">
@@ -14,71 +14,66 @@
 {{-- cuadro que informe los errores de campos no llenados --}}
                             @if($errors->any())
                                <div class="alert alert-dark alert alert-dismissible fade show" role="alert">
-
                                 <strong>¡Revise los campos!</strong>
                                     @foreach($errors->all() as $error)
-                                       <span class="badge badge-danger">{{$error}}</span>
+                                    <br><i class="bi bi-exclamation-circle"></i><span {{-- class="badge badge-danger" --}}>{{$error}}</span>
                                     @endforeach
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                </div>
                             @endif
-{{-- 
-formulario --}}
-                           
 
-                            {{-- FORMULARIO CLÁSICO --}}
-                            {{-- <form action="/store" method="post">
+                            <form action="{{ route('usuarios.store') }}" method="POST">
                                 @csrf
-                                <button type="submit">guardar</button>
-
-                            </form> --}}
-
-                           {{--  FORMULARIO MODERNO --}}
-                            {!! Form::open(array('route'=>'usuarios.store','method' => 'POST'))!!}
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="name">Nombre</label>
-                                            {!! Form::text('name', null, array('class'=>'form-control'))!!}
+                                            <input type="text" name="name" class="form-control" value="{{ old('name') }}">
                                         </div>
                                     </div>
-
+                            
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="email">E-mail</label>
-                                            {!! Form::text('email', null, array('class'=>'form-control'))!!}
+                                            <input type="text" name="email" class="form-control" value="{{ old('email') }}">
                                         </div>
                                     </div>
-
+                            
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="password">Password</label>
-                                            {!! Form::password('password', array('class'=>'form-control'))!!}
+                                            <input type="password" name="password" class="form-control">
                                         </div>
                                     </div>
-
+                            
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="confirm-password">Confirmar Password</label>
-                                            {!! Form::password('confirm-password', array('class'=>'form-control'))!!}
+                                            <input type="password" name="confirm-password" class="form-control">
                                         </div>
                                     </div>
-
+                            
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="">Roles</label>
-                                            {!! Form::select('roles[]',$roles,[], array('class'=>'form-control'))!!}
+                                            <label for="roles">Roles</label>
+                                            <select name="roles[]" class="form-control">
+                                                <option>-- Seleccione un Rol --</option>
+                                                @foreach($roles as $role)
+                                                    <option value="{{ $role }}">{{ $role }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-xs-12 col-sm-12 col-md-12">
-                                      <button type="submit" class="btn btn-primary">Guardar</button>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 d-flex justify-content-center w-100">
+                                        <button type="submit" class="btn btn-primary mx-2">Guardar</button>
+                                        <a class="btn btn-secondary mx-2" href="{{ route('usuarios.index') }}">Cancelar</a>
                                     </div>
                                 </div>
-                            {!! Form::close()!!}
-
+                            </form>
+                            
 
 
                             

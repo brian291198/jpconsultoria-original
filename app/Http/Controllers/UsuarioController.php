@@ -58,15 +58,21 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         //
-        $rules = [
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
+            'email' => 'required|email|unique:users,email,',
+            'password' => 'required|min:8|same:confirm-password',
             'roles' => 'required'
-        ];
-    
-        // Crear el validador
-        $validator = Validator::make($request->all(), $rules);
+        ], [
+            'name.required' => 'El nombre es obligatorio.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El correo electrónico debe ser una dirección de correo válida.',
+            'email.unique' => 'El correo electrónico ya está registrado.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.same' => 'La confirmación de la contraseña no coincide.',
+            'roles.required' => 'Debe seleccionar al menos un rol.'
+        ]);
     
         // Manejar errores de validación
         if ($validator->fails()) {
@@ -119,15 +125,21 @@ class UsuarioController extends Controller
         // Manejo de error si el usuario no existe
         return redirect()->route('usuarios.index')->with('error', 'Usuario no encontrado');
     }
-
-    // Obtener todos los roles disponibles
+ 
+   /*  // Obtener todos los roles disponibles
     $roles = Role::pluck('name', 'name')->all();
 
-    // Obtener los roles del usuario actual
+     // Obtener los roles del usuario actual
     $userRoles = $user->roles->pluck('name', 'name')->all();
 
     // Pasar los datos a la vista de edición
-    return view('usuarios.editar', compact('user', 'roles', 'userRole'));
+    return view('usuarios.editar', compact('user', 'roles', 'userRole'));  
+    return view('usuarios.editar', compact('user', 'roles')); */
+
+    $roles = Role::pluck('name', 'id')->all();
+    $userRoles = $user->roles->pluck('id')->toArray();
+
+    return view('usuarios.editar', compact('user', 'roles', 'userRoles'));
     }
 
     /**
@@ -140,11 +152,21 @@ class UsuarioController extends Controller
     public function update(Request $request, $id)
     {
         //
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'nullable|min:6|same:confirm-password',
+            'password' => 'required|min:8|same:confirm-password',
             'roles' => 'required'
+        ], [
+            'name.required' => 'El nombre es obligatorio.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El correo electrónico debe ser una dirección de correo válida.',
+            'email.unique' => 'El correo electrónico ya está registrado.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.same' => 'La confirmación de la contraseña no coincide.',
+            'roles.required' => 'Debe seleccionar al menos un rol.'
         ]);
     
         // Manejar errores de validación
@@ -166,13 +188,28 @@ class UsuarioController extends Controller
     
         // Actualizar el usuario
         $user = User::findOrFail($id);
-        $user->update($input);
+        /* $user->update($input); */
     
-        // Actualizar roles del usuario
+      /*   // Actualizar roles del usuario
         DB::table('model_has_roles')->where('model_id', $id)->delete();
-        $user->assignRole($request->input('roles'));
-    
-        // Redireccionar a la lista de usuarios
+       /*  $user->assignRole($request->input('roles')); */
+       /*  $user->syncRoles($request->input('roles', [])); */
+        // Redireccionar a la lista de usuarios */
+
+
+            // Aquí puedes usar $request->input('role_names') para obtener los nombres de los roles
+        $roleNames = $request->input('roles', []);
+        
+        // Asignar los roles seleccionados al usuario
+        // Aquí puedes realizar la lógica necesaria para manejar los roles por nombres
+        // Esto puede implicar buscar los roles por nombre en tu base de datos y luego asignarlos al usuario
+        foreach ($roleNames as $roleName) {
+            $role = Role::where('name', $roleName)->first(); // Suponiendo que 'Role' sea tu modelo de Rol
+            if ($role) {
+                $user->assignRole($role); // Asignar el rol al usuario
+            }
+        }
+        $user->save();
         return redirect()->route('usuarios.index');
     
     }
