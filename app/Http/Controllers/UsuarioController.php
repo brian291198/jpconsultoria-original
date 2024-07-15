@@ -188,6 +188,8 @@ class UsuarioController extends Controller
     
         // Actualizar el usuario
         $user = User::findOrFail($id);
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id')->delete();
         /* $user->update($input); */
     
       /*   // Actualizar roles del usuario
@@ -209,7 +211,10 @@ class UsuarioController extends Controller
                 $user->assignRole($role); // Asignar el rol al usuario
             }
         }
-        $user->save();
+   
+
+   
+  
         return redirect()->route('usuarios.index');
     
     }

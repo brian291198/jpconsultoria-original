@@ -56,13 +56,11 @@
       <h4>Lista de Usuarios</h4>
     </div>
     <div class="card-header">
- 
-    <h4>
-      <a href="{{route('usuarios.create')}}" class="btn btn-primary"><i class="bi bi-plus-circle-fill mr-2"></i>Crear nuevo</a>
-    </h4>
-
-
-
+      @can('Crear usuarios')
+          <h4>
+            <a href="{{route('usuarios.create')}}" class="btn btn-primary"><i class="bi bi-plus-circle-fill mr-2"></i>Crear nuevo</a>
+          </h4>
+      @endcan
 
       <div class="card-header-form">
         <form method="get" action="{{route('usuarios.index')}}">
@@ -83,7 +81,9 @@
             <th scope="col">Nombre</th>
             <th scope="col">E-mail</th>
             <th scope="col">Rol</th>
+            @can('Editar usuarios')
             <th scope="col">Acciones</th>
+            @endcan
           </tr>
         </thead>
         <tbody>
@@ -101,16 +101,17 @@
 
                     @endif
                 </td>
-                <td>
-                    
-                    <a href="{{route('usuarios.edit', $usuario->id)}}" class="btn btn-info"><i class="bi bi-pencil-square"></i></a>
-                    <form method="POST" action="{{ route('usuarios.destroy', $usuario->id) }}" style="display:inline">
+                @can('Editar usuarios')
+                  <td>
+                      <a href="{{route('usuarios.edit', $usuario->id)}}" class="btn btn-info"><i class="bi bi-pencil-square"></i></a>
+                      <form method="POST" action="{{ route('usuarios.destroy', $usuario->id) }}" style="display:inline">
                       @csrf
                       @method('DELETE')
                       <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
                       </form>
-
                   </td>
+                @endcan
+                  
             </tr>
             @endforeach
           </tbody>

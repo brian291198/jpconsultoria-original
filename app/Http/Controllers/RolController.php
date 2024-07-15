@@ -80,13 +80,13 @@ class RolController extends Controller
     
         $rules = [
             'name' => 'required',
-            'permission' => 'required|array',
+            'permission' => 'array',
         ];
     
         // Definición de mensajes de error personalizados
         $messages = [
             'name.required' => 'El nombre del rol es obligatorio.',
-            'permission.required' => 'Debe seleccionar al menos un permiso para el rol.',
+           /*  'permission.required' => 'Debe seleccionar al menos un permiso para el rol.', */
             'permission.array' => 'Los permisos deben ser proporcionados en formato de array.',
         ];
     
@@ -107,6 +107,17 @@ class RolController extends Controller
     
         // Sincronización de permisos asociados al rol
         $role->syncPermissions($request->input('permission'));
+
+    /*     $permissionIds = $request->input('permission', []);
+        $permissions = Permission::whereIn('id', $permissionIds)->pluck('name')->toArray();
+    
+        // Sincroniza los permisos con el rol
+        $role->syncPermissions($permissions); */
+
+
+
+
+
     
         // Redirección a la vista de índice de roles
         return redirect()->route('roles.index')->with('success', 'Rol creado exitosamente');

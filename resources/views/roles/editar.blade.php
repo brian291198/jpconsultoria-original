@@ -12,18 +12,17 @@
                         <div class="card-body">
 {{-- CONTENIDO --}}                          
                            {{-- cuadro que informe los errores de campos no llenados --}}
-                           @if($errors->any())
-                           <div class="alert alert-dark alert alert-dismissible fade show" role="alert">
-
-                           <strong>¡Revise los campos!</strong>
-                               @foreach($errors->all() as $error)
-                                   <span class="badge badge-danger">{{$error}}</span>
-                               @endforeach
-                               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                   <span aria-hidden="true">&times;</span>
-                               </button>
-                           </div>
-                           @endif
+                            @if($errors->any())
+                            <div class="alert alert-dark alert alert-dismissible fade show" role="alert">
+                            <strong>¡Revise los campos!</strong>
+                                @foreach($errors->all() as $error)
+                                <br><i class="bi bi-exclamation-circle"></i><span {{-- class="badge badge-danger" --}}>{{$error}}</span>
+                                @endforeach
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            @endif
 
                            {{-- formulario --}}
                            
@@ -45,7 +44,7 @@
                                         <br>
                                         @foreach($permission as $value)
                                             <label>
-                                                <input type="checkbox" name="permission[]" value="{{ $value->id }}" class="name" {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}>
+                                                <input type="checkbox" name="permission[]" value="{{ $value->name }}" class="name" {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}>
                                                 {{ $value->name }}
                                             </label>
                                             <br>

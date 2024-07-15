@@ -15,10 +15,9 @@
                             {{-- cuadro que informe los errores de campos no llenados --}}
                             @if($errors->any())
                             <div class="alert alert-dark alert alert-dismissible fade show" role="alert">
-
                             <strong>¡Revise los campos!</strong>
                                 @foreach($errors->all() as $error)
-                                    <span class="badge badge-danger">{{$error}}</span>
+                                <br><i class="bi bi-exclamation-circle"></i><span {{-- class="badge badge-danger" --}}>{{$error}}</span>
                                 @endforeach
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -34,7 +33,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="name">Nombre del Rol</label>
-                                            <input type="text" name="name" class="form-control" value="{{ old('name') }}">
+                                            <input type="text" name="name" class="form-control">
                                         </div>
                                     </div>
                             
@@ -44,7 +43,7 @@
                                             <br>
                                             @foreach($permission as $value)
                                                 <label>
-                                                    <input type="checkbox" name="permission[]" value="{{ $value->id }}" class="name">
+                                                    <input type="checkbox" name="permission[]" value="{{ $value->name }}" class="name">
                                                     {{ $value->name }}
                                                 </label>
                                                 <br>

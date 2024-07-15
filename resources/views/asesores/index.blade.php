@@ -58,7 +58,9 @@
           <th scope="col">Edad</th>
           <th scope="col">Cuenta Bancaria</th>
           <th scope="col">Cuenta Interbancaria</th>
+        @can('Editar asesores')
           <th scope="col">Accion</th>
+        @endcan
         </tr>
       </thead>
       <tbody>
@@ -76,12 +78,13 @@
                   <td>{{$a->edad}}</td>
                   <td>{{$a->bancaria}}</td>
                   <td>{{$a->interbancaria}}</td>
-
+                  @can('Editar asesores')
                   <td class="text-left text-center">
                       <form action="{{route('asesores.edit',$a->idasesor)}}" method="GET" >
                           <button class="btn btn-warning btn-sm" type="submit"><i class="far fa-user" ></i></button>  
                       </form>
                   </td>
+                  @endcan
                 </tr>
               @endforeach
           @endif

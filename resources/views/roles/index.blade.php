@@ -15,10 +15,11 @@
                                     <h4>Lista de Roles</h4>
                                   </div>
                                   <div class="card-header">
-                            <h4>
-                                <a href="{{route('roles.create')}}" class="btn btn-primary"><i class="bi bi-plus-circle-fill mr-2"></i>Crear nuevo</a>
-                              </h4>
-                          
+                                @can('Crear roles')
+                                    <h4>
+                                        <a href="{{route('roles.create')}}" class="btn btn-primary"><i class="bi bi-plus-circle-fill mr-2"></i>Crear nuevo</a>
+                                    </h4>
+                                @endcan
                           
                           
                           
@@ -36,14 +37,16 @@
 {{-- Definimos las directivas de laravel permission --}}
                               
                                
-                            <table class="table table-striped mt-2">
+                            <table class="table table-hover">
 
 
-                                    <thead class="thead-dark">
+                                    <thead>
                                         <tr>
-                                           <th style="color:#fff;">ID</th>
-                                           <th style="color:#fff;">Rol</th>
-                                           <th style="color:#fff;">Acciones</th>
+                                           <th scope="col">ID</th>
+                                           <th scope="col">Rol</th>
+                                           @can('Editar roles')
+                                           <th scope="col">Acciones</th>
+                                           @endcan
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,21 +54,16 @@
                                         <tr>
                                             <td>{{$role->id}}</td>
                                            <td>{{$role->name}}</td>
+                                           @can('Editar roles')
                                            <td>
-                                               @can('editar-rol')
-                                               @endcan
-                                                    <a class="btn btn-info" href="{{ route('roles.edit',$role->id)}}"><i class="bi bi-pencil-square"></i></a>
-                                               
-
-                                               
+                                                <a class="btn btn-info" href="{{ route('roles.edit',$role->id)}}"><i class="bi bi-pencil-square"></i></a>
                                                <form method="POST" action="{{ route('roles.destroy', $role->id) }}" style="display:inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
                                                 </form>
-                                               
-
                                            </td>
+                                           @endcan
                                         </tr>
                                         @endforeach
                                     </tbody>
