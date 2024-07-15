@@ -4,6 +4,7 @@ use App\Http\Controllers\AsesorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ClientesController;
 
 
 Route::get('/', function () {
@@ -23,9 +24,11 @@ Route::middleware(['auth'])->group(function () {
       return view('errores.errors-404');
     });
     Route::get('/home', [HomeController::class, 'retornarHome'])->name('retornarHome');
-   
-    Route::resource('asesor', AsesorController::class);
-
+    
+    /* ASESORES */
+    Route::resource('asesores', AsesorController::class)->names('asesores');
+    /* CLIENTES */
+    Route::resource('clientes', ClientesController::class)->names('clientes');
 });
 
 

@@ -14,6 +14,13 @@
   <link rel="stylesheet" href="{{ asset('backend/assets/modules/weather-icon/css/weather-icons.min.css')}}">
   <link rel="stylesheet" href="{{ asset('backend/assets/modules/weather-icon/css/weather-icons-wind.min.css')}}">
   <link rel="stylesheet" href="{{ asset('backend/assets/modules/summernote/summernote-bs4.css')}}">
+  
+  {{-- Sweet Alert --}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css')}}">
@@ -112,9 +119,14 @@
             <li class="dropdown">
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-people"></i><span>Asesores</span></a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{route('asesor.index')}}">Lista de asesores</a></li>
-                <li><a class="nav-link" href="#">Crear nuevo asesor</a></li>
-              </ul>
+                <li><a class="nav-link" href="{{route('asesores.index')}}">Lista de asesores</a></li>
+              </ul> 
+            </li>
+            <li class="dropdown">
+              <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-person-check"></i><span>Clientes</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="{{route('clientes.index')}}">Lista de clientes</a></li>
+              </ul> 
             </li>
             <li class="menu-header">Espacio de trabajo</li>
             <li class="dropdown">
@@ -182,5 +194,6 @@
   <script>
   @yield('script')
   </script>
+  @yield('js')
 </body>
 </html>
