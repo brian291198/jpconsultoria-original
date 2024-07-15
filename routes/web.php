@@ -11,9 +11,9 @@ Route::get('/', function () {
   return redirect()->route('login'); // Redirige a la ruta 'login'
 });
 
-Route::get('/pe', function () {
+/* Route::get('/pe', function () {
   return view('admin.eliminar-plantilla');
-});
+}); */
 
 Route::middleware(['auth'])->group(function () {
 
