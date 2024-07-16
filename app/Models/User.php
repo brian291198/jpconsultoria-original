@@ -44,4 +44,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /* public function Proyecto_user(){
+        return $this->belongsToMany(Proyecto_User::class,'idusuario','idproyecto');
+    } */
+
 }

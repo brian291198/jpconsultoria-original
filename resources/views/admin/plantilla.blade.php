@@ -128,6 +128,12 @@
                 <li><a class="nav-link" href="{{route('clientes.index')}}">Lista de clientes</a></li>
               </ul> 
             </li>
+            <li class="dropdown">
+              <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-clipboard-data"></i><span>Proyectos</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="{{route('proyecto_user.index')}}">Lista de Proyectos</a></li>
+              </ul> 
+            </li>
             <li class="menu-header">Espacio de trabajo</li>
             <li class="dropdown">
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-file-earmark-plus"></i><span>Proyectos</span></a>
@@ -154,7 +160,7 @@
 
       <!-- Main Content -->
       <div class="main-content" style="min-height:100%">
-      @yield('content')
+        @yield('content')
       </div>
       
       <footer class="main-footer">

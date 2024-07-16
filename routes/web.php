@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\ProyectosController;
+use App\Http\Controllers\ProyectoUserController;
+
 
 
 Route::get('/', function () {
@@ -29,6 +32,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('asesores', AsesorController::class)->names('asesores');
     /* CLIENTES */
     Route::resource('clientes', ClientesController::class)->names('clientes');
+    /* PROYECTOS_USER */
+    Route::resource('proyecto_user', ProyectoUserController::class)->names('proyecto_user');
 });
 
 
