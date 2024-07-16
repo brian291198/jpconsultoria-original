@@ -3,20 +3,18 @@
 use App\Http\Controllers\AsesorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
+
 use App\Http\Controllers\ClientesController;
-use App\Http\Controllers\ProyectosController;
 use App\Http\Controllers\ProyectoUserController;
-
-
-
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\RolController;
 Route::get('/', function () {
   return redirect()->route('login'); // Redirige a la ruta 'login'
 });
 
-Route::get('/pe', function () {
+/* Route::get('/pe', function () {
   return view('admin.eliminar-plantilla');
-});
+}); */
 
 Route::middleware(['auth'])->group(function () {
 
@@ -32,6 +30,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('asesores', AsesorController::class)->names('asesores');
     /* CLIENTES */
     Route::resource('clientes', ClientesController::class)->names('clientes');
+    Route::resource('usuarios', UsuarioController::class)->names('usuarios');
+    Route::resource('roles',RolController::class)->names('roles');
+
     /* PROYECTOS_USER */
     Route::resource('proyecto_user', ProyectoUserController::class)->names('proyecto_user');
 });

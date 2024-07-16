@@ -61,16 +61,20 @@
             <img alt="image" src="backend/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">{{ auth()->user()->name }}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
-              <div class="dropdown-title">Opciones de usuario</div>
+              <div class="dropdown-title">
+                @foreach (auth()->user()->roles as $role)
+                {{ $role->name }}
+                @endforeach
+              </div>
               <a href="features-profile.html" class="dropdown-item has-icon">
                 <i class="far fa-user"></i> Perfil
               </a>
-              <a href="features-activities.html" class="dropdown-item has-icon">
+             {{--  <a href="features-activities.html" class="dropdown-item has-icon">
                 <i class="fas fa-bolt"></i> Actividades
               </a>
               <a href="features-settings.html" class="dropdown-item has-icon">
                 <i class="fas fa-cog"></i> Configuración
-              </a>
+              </a> --}}
               <div class="dropdown-divider"></div>
              
               <form id="logout-form" action="{{ route('logout') }}" method="POST" >
@@ -92,40 +96,79 @@
             <a href="index.html">JP</a>
           </div>
           <ul class="sidebar-menu">
+            @can('Ver submenú de dashboards')
             <li class="menu-header">Dashboard</li>
-            <li class="dropdown active">
-              <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-              <ul class="dropdown-menu">
-                <li class=active><a class="nav-link" href="#">Dashboard General </a></li>
-                <li><a class="nav-link" href="#">Dashboard de Asesores</a></li>
-              </ul>
-            </li>
-            <li class="menu-header">Accesos</li>
             <li class="dropdown">
-              <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-person-gear"></i><span>Usuarios</span></a>
+              <a href="#" class="nav-link has-dropdown"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="#">Lista de usuarios</a></li>
-                <li><a class="nav-link" href="#">Crear nuevo usuario</a></li>
+                @can('Ver dashboard general')
+                <li><a class="nav-link" href="#">Dashboard General </a></li>
+                @endcan
+                @can('Ver dashboard de asesores')
+                <li><a class="nav-link" href="#">Dashboard de Asesores</a></li>
+                @endcan
               </ul>
             </li>
+            @endcan
+            @can('Ver submenú de usuario')                          
+              <li class="menu-header">Accesos</li>
+              <li class="dropdown">
+                <a href="#" class="nav-link has-dropdown" ><i class="bi bi-person-gear"></i><span>Usuarios</span></a>
+                
+                
+                <ul class="dropdown-menu">
+                  @can('Ver lista de usuarios')
+                  <li><a class="nav-link" href="{{route('usuarios.index')}}">Lista de usuarios</a></li>
+                  @endcan 
+                  @can('Crear usuarios')
+                  <li><a class="nav-link" href="{{route('usuarios.create')}}">Crear nuevo usuario</a></li>
+                  @endcan
+                </ul>
+                
+                </li>
+
+
+            @endcan
+            
+              @can('Ver submenú de roles')
             <li class="dropdown">
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-briefcase"></i><span>Roles</span></a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="#">Lista de roles</a></li>
-                <li><a class="nav-link" href="#">Crear nuevo rol</a></li>
+                @can('Ver lista de roles')
+                <li><a class="nav-link" href="{{route('roles.index')}}">Lista de roles</a></li>
+                @endcan 
+                @can('Crear roles')
+                <li><a class="nav-link" href="{{route('roles.create')}}">Crear nuevo rol</a></li>
+                @endcan 
               </ul>
             </li>
-            <li class="menu-header">Administración</li>
-            <li class="dropdown">
-              <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-people"></i><span>Asesores</span></a>
+            @endcan 
+            @can('Ver submenú de asesores')
+              <li class="menu-header">Administración</li>
+              <li class="dropdown">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-people"></i><span>Asesores</span></a>
+                <ul class="dropdown-menu">
+                  @can('Ver lista de asesores')
+                  <li><a class="nav-link" href="{{route('asesores.index')}}">Lista de asesores</a></li>
+                  @endcan
+                </ul> 
+              </li>
+            @endcan
+            @can('Ver submenú de clientes')
+              <li class="menu-header">Clientes</li>
+              <li class="dropdown">
+              <a href="#" class="nav-link has-dropdown"><i class="bi bi-person-check"></i><span>Clientes</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="{{route('asesores.index')}}">Lista de asesores</a></li>
               </ul> 
             </li>
+
             <li class="dropdown">
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-person-check"></i><span>Clientes</span></a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{route('clientes.index')}}">Lista de clientes</a></li>
+                @can('Ver lista de clientes')
+                  <li><a class="nav-link" href="{{route('clientes.index')}}">Lista de Clientes</a></li>
+                @endcan
               </ul> 
             </li>
             <li class="dropdown">
@@ -142,6 +185,18 @@
                 <li><a class="nav-link" href="#">Crear nuevo proyecto</a></li>
               </ul>
             </li>
+            @endcan
+          {{--   @can('')
+              <li class="menu-header">Espacio de trabajo</li>
+              <li class="dropdown">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-file-earmark-plus"></i><span>Proyectos</span></a>
+                <ul class="dropdown-menu">
+                  <li><a class="nav-link" href="#">Lista de proyectos</a></li>
+                  <li><a class="nav-link" href="#">Crear nuevo proyecto</a></li>
+                </ul>
+              </li>
+            @endcan
+            @can('')
             <li class="dropdown">
               <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="bi bi-card-checklist"></i><span>Actividades</span></a>
               <ul class="dropdown-menu">
@@ -149,13 +204,16 @@
                 <li><a class="nav-link" href="#">Crear nueva actividad</a></li>
               </ul>
             </li>
+            @endcan --}}
          </ul>
 
           <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
             <a href="" class="btn btn-primary btn-lg btn-block btn-icon-split">
               <i class="fas fa-rocket"></i> Nuevo proyecto
             </a>
-          </div>        </aside>
+          </div>        
+        
+        </aside>
       </div>
 
       <!-- Main Content -->
@@ -173,6 +231,29 @@
       </footer>
     </div>
   </div>
+
+   
+  @yield('script')
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(function(dropdown) {
+            dropdown.addEventListener('click', function() {
+                this.classList.add('active');
+            });
+        });
+
+        var dropdownItems = document.querySelectorAll('.dropdown-menu li');
+        dropdownItems.forEach(function(item) {
+            if (item.querySelector('a').textContent.trim() === 'Dashboard General') {
+                item.addEventListener('click', function() {
+                    this.classList.add('active');
+                });
+            }
+        });
+    });
+</script>
 
   <!-- General JS Scripts -->
   <script src="{{ asset('backend/assets/modules/jquery.min.js')}}"></script>
@@ -192,7 +273,7 @@
   <script src="{{ asset('backend/assets/modules/chocolat/dist/js/jquery.chocolat.min.js')}}"></script>
 
   <!-- Page Specific JS File -->
-  <script src="{{ asset('backend/assets/js/page/index-0.js')}}"></script>
+ {{--  <script src="{{ asset('backend/assets/js/page/index-0.js')}}"></script> --}}
   
   <!-- Template JS File -->
   <script src="{{ asset('backend/assets/js/scripts.js')}}"></script>

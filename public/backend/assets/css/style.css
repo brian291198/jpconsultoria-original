@@ -2875,3 +2875,32 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
   z-index: 9999;
   size: 20px;
 }
+
+  /* /* paginación */
+/* .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.pagination {
+    list-style-type: none;
+    display: flex;
+}
+.pagination li {
+    margin: 0 5px;
+}
+.pagination a {
+    text-decoration: none;
+    padding: 5px 10px;
+    color: #0575B4;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+}
+.pagination a.active {
+    background-color: #0575B4;
+    color: white;
+}
+.pagination a.disabled {
+    color: #6c757d;
+    cursor: not-allowed;
+}  */
